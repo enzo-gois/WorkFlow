@@ -29,7 +29,7 @@ API RESTful desenvolvida com Node.js para gerenciamento de fluxos de trabalho.
 
 4. Execute a aplicação:
    ```bash
-   node ./app.js
+   npm start
    ```
 
 ## WorkFlow utilizado 
