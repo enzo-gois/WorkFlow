@@ -10,6 +10,14 @@ API RESTful desenvolvida com Node.js para gerenciamento de fluxos de trabalho.
 - Mongoose  
 - dotenv  
 
+# Infraestrutura com Vagrant
+Este projeto utiliza o Vagrant para simular uma infraestrutura de duas máquinas virtuais com VirtualBox.
+
+## 💻 Requisitos
+
+- [VirtualBox](https://www.virtualbox.org/)
+- [Vagrant](https://www.vagrantup.com/)
+
 ## ⚙️ Instalação
 
 1. Clone o repositório:
@@ -30,6 +38,23 @@ API RESTful desenvolvida com Node.js para gerenciamento de fluxos de trabalho.
 4. Execute a aplicação:
    ```bash
    npm start
+   ```
+
+## Rodando nas máquinas virtuais
+
+1. Inicie as máquinas virtuais
+   ```bash
+      vagrant up
+   ```
+
+2. Acesse a vm1
+   ```bash
+      vagrant ssh vm1
+   ```
+
+3. Teste a API que foi levantada na vm2
+   ```
+      curl http://192.168.56.20:3000/livros
    ```
 
 ## WorkFlow utilizado 
