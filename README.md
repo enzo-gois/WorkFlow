@@ -52,7 +52,13 @@ Este projeto utiliza o Vagrant para simular uma infraestrutura de duas máquinas
       vagrant ssh vm1
    ```
 
-3. Teste a API que foi levantada na vm2
+3. Execute o provisionamento com Ansible:
+   ```
+      cd /vagrant/ansible
+      ansible-playbook -i inventory configura-node.yml
+   ```
+
+4. Teste a API a partir da VM1:
    ```
       curl http://192.168.56.20:3000/livros
    ```
