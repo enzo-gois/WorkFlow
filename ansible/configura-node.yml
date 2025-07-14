@@ -1,0 +1,70 @@
+- name: Configurar aplicação Node.js na VM2
+  hosts: api
+  become: yes
+
+  tasks:
+    - name: Atualizar cache de pacotes
+      apt:
+        update_cache: yes
+
+    - name: Instalar Git, curl e dependências básicas
+      apt:
+        name:
+          - git
+          - curl
+          - gnupg
+          - ca-certificates
+        state: present
+
+    - name: Adicionar repositório Node.js 18.x
+      shell: curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
+      args:
+        executable: /bin/bash
+
+    - name: Instalar Node.js e MongoDB
+      apt:
+        name:
+          - nodejs
+          - mongodb
+        state: present
+
+    - name: Habilitar e iniciar MongoDB
+      systemd:
+        name: mongodb
+        enabled: yes
+        state: started
+
+    - name: Instalar dependências da aplicação
+      npm:
+        path: /home/vagrant/vagrant_data
+        production: no
+
+    - name: Criar arquivo de serviço systemd para Node.js
+      copy:
+        dest: /etc/systemd/system/workflow.service
+        content: |
+          [Unit]
+          Description=Node.js WorkFlow API
+          After=network.target mongodb.service
+
+          [Service]
+          Type=simple
+          WorkingDirectory=/home/vagrant/vagrant_data
+          ExecStart=/usr/bin/npm start
+          Restart=on-failure
+          User=vagrant
+          Environment=NODE_ENV=production
+          StandardOutput=file:/home/vagrant/vagrant_data/app.log
+          StandardError=file:/home/vagrant/vagrant_data/app.log
+
+          [Install]
+          WantedBy=multi-user.target
+
+    - name: Dar reload no systemd
+      command: systemctl daemon-reexec
+
+    - name: Habilitar e iniciar o serviço Node.js
+      systemd:
+        name: workflow
+        enabled: true
+        state: started
