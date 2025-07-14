@@ -55,7 +55,7 @@ Este projeto utiliza o Vagrant para simular uma infraestrutura de duas máquinas
 3. Execute o provisionamento com Ansible:
    ```
       cd /vagrant/ansible
-      ansible-playbook -i inventory configura-node.yml
+      ansible-playbook -i inventory /vagrant/ansible/configura-node.yml
    ```
 
 4. Teste a API a partir da VM1:
